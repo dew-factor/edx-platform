@@ -10,6 +10,7 @@ import CourseCardView from './course_card_view';
 import HeaderView from './program_header_view';
 import SidebarView from './program_details_sidebar_view';
 
+import restartIcon from '../../../images/restart-icon.svg';
 import pageTpl from '../../../templates/learner_dashboard/program_details_view.underscore';
 import tabPageTpl from '../../../templates/learner_dashboard/program_details_tab_view.underscore';
 import trackECommerceEvents from '../../commerce/track_ecommerce_events';
@@ -32,7 +33,14 @@ class ProgramDetailsView extends Backbone.View {
     } else {
       this.tpl = HtmlUtils.template(pageTpl);
     }
-    this.programModel = new Backbone.Model(this.options.programData);
+
+    const {
+      subscription_data: subscriptionData,
+      ...programData
+    } = this.options.programData;
+
+    this.programModel = new Backbone.Model(programData);
+    this.subscriptionModel = new Backbone.Model(subscriptionData);
     this.courseData = new Backbone.Model(this.options.courseData);
     this.certificateCollection = new Backbone.Collection(this.options.certificateData);
     this.completedCourseCollection = new CourseCardCollection(
@@ -84,9 +92,13 @@ class ProgramDetailsView extends Backbone.View {
       creditPathways: this.options.creditPathways,
       discussionFragment: this.options.discussionFragment,
       live_fragment: this.options.live_fragment,
-
+      restartIcon: restartIcon,
     };
-    data = $.extend(data, this.programModel.toJSON());
+    data = $.extend(
+      data,
+      this.programModel.toJSON(),
+      this.subscriptionModel.toJSON()
+    );
     HtmlUtils.setHtml(this.$el, this.tpl(data));
     this.postRender();
   }
@@ -130,6 +142,7 @@ class ProgramDetailsView extends Backbone.View {
       el: '.js-program-sidebar',
       model: this.programModel,
       courseModel: this.courseData,
+      subscriptionModel: this.subscriptionModel,
       certificateCollection: this.certificateCollection,
       programRecordUrl: this.options.urls.program_record_url,
       industryPathways: this.options.industryPathways,
