@@ -31,7 +31,7 @@
                             <% // xss-lint: disable=underscore-not-escaped %>
                             <%= restartIcon %>
                         </div>
-                        <span><%- gettext('Restart subscription') %></span>
+                        <span><%- gettext('Restart my subscription') %></span>
                     </div>
                 <% } else { %>
                     <%- StringUtils.interpolate(gettext(
@@ -46,7 +46,7 @@
                     <%- StringUtils.interpolate(
                         gettext(
                             subscription_state === 'active'
-                            ? 'Subscription active since {subscription_start_date}'
+                            ? 'Your next billing date is {subscription_billing_date}'
                             : subscription_state === 'active_trial'
                             ? 'Active Trial ends {trial_end_date} at {trial_end_time}'
                             : subscription_state === 'inactive'
@@ -55,7 +55,7 @@
                         ),
                         {
                             subscription_price,
-                            subscription_start_date,
+                            subscription_billing_date,
                             trial_end_date,
                             trial_end_time,
                         }

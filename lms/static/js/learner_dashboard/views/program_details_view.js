@@ -1,6 +1,7 @@
 /* globals gettext */
 
 import Backbone from 'backbone';
+import moment from 'moment';
 
 import HtmlUtils from 'edx-ui-toolkit/js/utils/html-utils';
 
@@ -14,6 +15,17 @@ import restartIcon from '../../../images/restart-icon.svg';
 import pageTpl from '../../../templates/learner_dashboard/program_details_view.underscore';
 import tabPageTpl from '../../../templates/learner_dashboard/program_details_tab_view.underscore';
 import trackECommerceEvents from '../../commerce/track_ecommerce_events';
+
+// Utility function to get the next billing date for a subscription
+// TODO: may get from api later
+function getNextBillingDate(startDate) {
+  const subscriptionStartDate = moment(startDate, 'YYYY-MM-DD');
+  const currentMonthDifference = moment().diff(subscriptionStartDate, 'months');
+
+  return subscriptionStartDate
+    .add(currentMonthDifference + 1, 'months')
+    .format('MMMM DD, YYYY');
+};
 
 class ProgramDetailsView extends Backbone.View {
   constructor(options) {
@@ -38,6 +50,9 @@ class ProgramDetailsView extends Backbone.View {
       subscription_data: subscriptionData,
       ...programData
     } = this.options.programData;
+
+    subscriptionData.subscription_billing_date = getNextBillingDate(subscriptionData.subscription_start_date);
+    subscriptionData.trial_end_date = moment(subscriptionData.trial_end_date, 'YYYY-MM-DD').format('MMMM DD, YYYY');
 
     this.programModel = new Backbone.Model(programData);
     this.subscriptionModel = new Backbone.Model(subscriptionData);

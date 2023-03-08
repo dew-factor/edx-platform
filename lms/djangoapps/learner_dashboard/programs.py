@@ -131,10 +131,9 @@ class ProgramDetailsFragmentView(EdxFragmentView):
                 'subscription_data': {
                     'is_eligible_for_subscription': True,
                     'subscription_price': '$39',
-                    'subscription_start_date': '14th July 2023',
+                    'subscription_start_date': '2023-07-14',
                     'subscription_state': 'active',
-                    'subscription_support_mail': 'support-subscription@edx.org',
-                    'trial_end_date': '14th July 2023',
+                    'trial_end_date': '2023-07-14',
                     'trial_end_time': '3:54 pm',
                     'trial_length': 7,
                 },
