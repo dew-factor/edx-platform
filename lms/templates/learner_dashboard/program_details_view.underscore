@@ -48,7 +48,7 @@
                             subscription_state === 'active'
                             ? 'Your next billing date is {subscription_billing_date}'
                             : subscription_state === 'active_trial'
-                            ? 'Active Trial ends {trial_end_date} at {trial_end_time}'
+                            ? 'Active trial ends {trial_end_date} at {trial_end_time}'
                             : subscription_state === 'inactive'
                             ? 'Unlock verified access to all courses for {subscription_price}/month. Cancel anytime.'
                             : '{subscription_price}/month subscription after trial ends. Cancel anytime.'

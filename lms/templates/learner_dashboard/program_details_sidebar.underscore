@@ -13,10 +13,10 @@
     <h2 class="divider-heading">
         <%- gettext(
             subscription_state === 'active'
-            ? 'Active Subscription'
+            ? 'Active subscription'
             : subscription_state === 'active_trial'
-            ? 'Trial Subscription'
-            : 'Inactive Subscription'
+            ? 'Trial subscription'
+            : 'Inactive subscription'
         ) %>
     </h2>
     <div class="sidebar-section">
@@ -25,29 +25,32 @@
                 <%= HtmlUtils.interpolateHtml(
                     gettext(
                         ['active', 'active_trial'].includes(subscription_state)
-                        ? 'View your receipts or modify your subscription on the {i_start}Orders and Subscriptions{i_end} page'
+                        ? 'View your receipts or modify your subscription on the {a_start}Orders and subscriptions{a_end} page'
                         : subscription_state === 'inactive'
-                        ? 'Restart your subscription for {subscription_price}/month. Your payment history is still available on the {i_start}Orders and Subscriptions{i_end} page'
-                        : 'If you had a subscription previously, your payment history is still available on the {i_start}Orders and Subscriptions{i_end} page'
+                        ? 'Restart your subscription for {subscription_price}/month. Your payment history is still available on the {a_start}Orders and subscriptions{a_end} page'
+                        : 'If you had a subscription previously, your payment history is still available on the {a_start}Orders and subscriptions{a_end} page'
                     ),
                     {
                         subscription_price,
-                        i_start: HtmlUtils.HTML('<i>'),
-                        i_end: HtmlUtils.HTML('</i>'),
+                        a_start: HtmlUtils.HTML('<a class="subscription-link" href="">'),
+                        a_end: HtmlUtils.HTML('</a>'),
                     }
                 ) %>
             </p>
-            <a class="subscription-link" href=""><%- gettext('Orders and subscriptions') %></a>
-        </div>
-        <div class="subscription-section mt-3">
-            <p class="my-0"><%- gettext('Need help? Check out the Learner Help Center to troubleshoot issues or contact support ') %></p>
-            <div class="d-flex align-items-center">
-                <a class="subscription-link" href=""><%- gettext('Help Center') %></a>
-                <div class="subscription-icon-arrow-upright">
-                    <% // xss-lint: disable=underscore-not-escaped %>
-                    <%= arrowUprightIcon %>
-                </div>
-            </div>
+            <p class="my-0">
+                <%= HtmlUtils.interpolateHtml(
+                    gettext(
+                        'Need help? Check out the {a_start}Learner help centre{d_start}{icon}{d_end}{a_end} to troubleshoot issues or contact support '
+                    ),
+                    {
+                        a_start: HtmlUtils.HTML('<a class="subscription-link" href="">'),
+                        a_end: HtmlUtils.HTML('</a>'),
+                        d_start: HtmlUtils.HTML('<span class="subscription-icon-arrow-upright">'),
+                        icon: HtmlUtils.HTML(arrowUprightIcon),
+                        d_end: HtmlUtils.HTML('</span>'),
+                    }
+                ) %>
+            </p>
         </div>
     </div>
 </aside>
